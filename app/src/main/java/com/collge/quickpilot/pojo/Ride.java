@@ -1,10 +1,13 @@
 package com.collge.quickpilot.pojo;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by Siddhesh on 20-01-2017.
  */
 
-public class Ride{
+public class Ride implements Parcelable{
 
     String myMobile, rikMobile, sourceLat, sourceLng, destinationLat, destinationLng, rikLat, rikLng;
     int status;
@@ -28,6 +31,34 @@ public class Ride{
         this.destinationLng = destinationLng;
         this.status = SEARCHING;
     }
+
+    protected Ride(Parcel in) {
+        myMobile = in.readString();
+        rikMobile = in.readString();
+        sourceLat = in.readString();
+        sourceLng = in.readString();
+        destinationLat = in.readString();
+        destinationLng = in.readString();
+        rikLat = in.readString();
+        rikLng = in.readString();
+        status = in.readInt();
+        SEARCHING = in.readInt();
+        WAITING = in.readInt();
+        CONFIRM = in.readInt();
+        COMPLETED = in.readInt();
+    }
+
+    public static final Creator<Ride> CREATOR = new Creator<Ride>() {
+        @Override
+        public Ride createFromParcel(Parcel in) {
+            return new Ride(in);
+        }
+
+        @Override
+        public Ride[] newArray(int size) {
+            return new Ride[size];
+        }
+    };
 
     public String getMyMobile() {
         return myMobile;
@@ -99,5 +130,23 @@ public class Ride{
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(status);
+        dest.writeString(myMobile);
+        dest.writeString(rikMobile);
+        dest.writeString(sourceLat);
+        dest.writeString(sourceLng);
+        dest.writeString(destinationLat);
+        dest.writeString(destinationLng);
+        dest.writeString(rikLat);
+        dest.writeString(rikLng);
     }
 }

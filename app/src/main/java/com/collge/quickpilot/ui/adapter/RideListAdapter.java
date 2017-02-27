@@ -1,6 +1,7 @@
 package com.collge.quickpilot.ui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import com.collge.quickpilot.R;
 import com.collge.quickpilot.firebase_database.RidesReference;
 import com.collge.quickpilot.pojo.Ride;
+import com.collge.quickpilot.ui.activity.MapsActivity;
 import com.collge.quickpilot.ui.activity.RideListActivity;
 
 import java.util.ArrayList;
@@ -60,6 +62,10 @@ public class RideListAdapter extends RecyclerView.Adapter<RideListAdapter.ViewHo
             @Override
             public void onClick(View v) {
                 ((RideListActivity)context).changeRideStatus(ride.getMyMobile());
+
+                Intent intent = new Intent(context, MapsActivity.class);
+                intent.putExtra("ride", ride);
+                context.startActivity(intent);
             }
         });
     }
