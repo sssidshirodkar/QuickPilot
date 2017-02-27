@@ -1,7 +1,5 @@
 package com.collge.quickpilot.firebase_database;
 
-import android.util.Log;
-
 import com.collge.quickpilot.pojo.Ride;
 import com.collge.quickpilot.ui.interfaces.Callback_v2;
 import com.collge.quickpilot.util.Constants;
@@ -9,7 +7,6 @@ import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 
@@ -21,6 +18,7 @@ public class RidesReference extends AbstractDatabaseReference {
     private DatabaseReference mRideRef;
     private ValueEventListener listener;
     private Callback_v2 callback;
+
     @Override
     public void initiateDatabase(Callback_v2 callback) {
         this.callback = callback;
@@ -39,43 +37,36 @@ public class RidesReference extends AbstractDatabaseReference {
         mRideRef.addValueEventListener(listener);
     }
 
-    public void addMyRide(Ride ride){
+    public void addMyRide(Ride ride) {
         mRideRef.setValue(ride);
     }
 
-    public void getListOfRides(){
-        Query query = mRideRef;
-        query.addChildEventListener(new ChildEventListener() {
+    public void getListOfRides(final Callback_v2 callback) {
+        mRideRef.orderByChild("status").equalTo(0).addValueEventListener(new ValueEventListener() {
             @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Log.d("Listening","onChildAdded : "+dataSnapshot);
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                Log.d("Listening","onChildChanged : "+dataSnapshot);
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-                Log.d("Listening","onChildRemoved : "+dataSnapshot);
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-                Log.d("Listening","onChildMoved : "+dataSnapshot);
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                callback.invoke(dataSnapshot);
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Log.d("Listening","onCancelled : "+databaseError);
+
             }
         });
     }
 
     @Override
-    public void dataChange(DataSnapshot dataSnapshot){
+    public void dataChange(DataSnapshot dataSnapshot) {
         callback.invoke(dataSnapshot);
-        Log.d("Listening","dataSnapshot : "+dataSnapshot);
+//        Log.d("Listening","dataSnapshot : "+dataSnapshot);
     }
+
+    public void changeRideStatus(String phoneNo){
+        mRideRef.child(phoneNo).setValue(1);
+    }
+
+    public DatabaseReference getRideRef(){
+        return mRideRef;
+    }
+
 }

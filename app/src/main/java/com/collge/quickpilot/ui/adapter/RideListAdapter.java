@@ -5,9 +5,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.collge.quickpilot.R;
+import com.collge.quickpilot.firebase_database.RidesReference;
+import com.collge.quickpilot.pojo.Ride;
+import com.collge.quickpilot.ui.activity.RideListActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,17 +23,25 @@ import java.util.List;
 public class RideListAdapter extends RecyclerView.Adapter<RideListAdapter.ViewHolder>  {
 
     Context context;
-    List<String> list;
+    ArrayList<Ride> rides;
 
     static class ViewHolder extends RecyclerView.ViewHolder{
+
+        public TextView tv_mobile, tv_status;
+        public Button btnStart;
+
         public ViewHolder(View view){
             super(view);
+            tv_mobile = (TextView) view.findViewById(R.id.tv_mobile);
+            tv_status = (TextView) view.findViewById(R.id.tv_status);
+            btnStart = (Button) view.findViewById(R.id.btnStart);
         }
 
     }
 
-    public RideListAdapter(Context context){
+    public RideListAdapter(Context context, ArrayList<Ride> rides){
         this.context = context;
+        this.rides = rides;
     }
 
     @Override
@@ -39,12 +53,20 @@ public class RideListAdapter extends RecyclerView.Adapter<RideListAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-
+        final Ride ride = rides.get(position);
+        holder.tv_mobile.setText(ride.getMyMobile());
+        holder.tv_status.setText(String.valueOf(ride.getStatus()));
+        holder.btnStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((RideListActivity)context).changeRideStatus(ride.getMyMobile());
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return /*list.size()*/5;
+        return rides.size();
     }
 
 }

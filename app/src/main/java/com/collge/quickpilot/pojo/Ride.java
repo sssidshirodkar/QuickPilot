@@ -18,6 +18,8 @@ public class Ride{
      */
     int SEARCHING = 0, WAITING = 1, CONFIRM = 2, COMPLETED = 3;
 
+    Ride(){}
+
     public Ride(String myMobile, String sourceLat, String sourceLng, String destinationLat, String destinationLng) {
         this.myMobile = myMobile;
         this.sourceLat = sourceLat;
