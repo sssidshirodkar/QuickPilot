@@ -61,7 +61,7 @@ public class Ride implements Parcelable{
     };
 
     public String getMyMobile() {
-        return myMobile;
+        return this.myMobile;
     }
 
     public void setMyMobile(String myMobile) {
