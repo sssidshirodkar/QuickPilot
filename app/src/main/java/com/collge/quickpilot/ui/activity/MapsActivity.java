@@ -11,15 +11,14 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
 import android.provider.Settings;
-import android.support.annotation.Nullable;
 import android.support.v13.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.collge.quickpilot.R;
 import com.collge.quickpilot.pojo.Ride;
 import com.collge.quickpilot.util.Constants;
@@ -27,10 +26,6 @@ import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
-import com.google.android.gms.common.GooglePlayServicesRepairableException;
-import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
@@ -40,14 +35,12 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.firebase.database.DataSnapshot;
 
 /**
  * Created by Siddhesh on 28-02-2017.
  */
 
-public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks  {
+public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks {
 
     Ride ride;
     private GoogleMap mMap;
@@ -58,8 +51,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     TextView mLocationMarkerText;
     private LatLng mCenterLatLong;
     private GoogleApiClient client;
-
-
 
 
     /**
@@ -78,7 +69,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private static final int REQUEST_CODE_AUTOCOMPLETE = 1;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,30 +85,30 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mapFragment.getMapAsync(this);
         mResultReceiver = new AddressResultReceiver(new Handler());
 
-            // If this check succeeds, proceed with normal processing.
-            // Otherwise, prompt user to get valid Play Services APK.
-            if (!Constants.isLocationEnabled(mContext)) {
-                // notify user
-                AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
-                dialog.setMessage("Location not enabled!");
-                dialog.setPositiveButton("Open location settings", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface paramDialogInterface, int paramInt) {
-                        Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                        startActivity(myIntent);
-                    }
-                });
-                dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        // If this check succeeds, proceed with normal processing.
+        // Otherwise, prompt user to get valid Play Services APK.
+        if (!Constants.isLocationEnabled(mContext)) {
+            // notify user
+            AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
+            dialog.setMessage("Location not enabled!");
+            dialog.setPositiveButton("Open location settings", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                    Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    startActivity(myIntent);
+                }
+            });
+            dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 
-                    @Override
-                    public void onClick(DialogInterface paramDialogInterface, int paramInt) {
-                        // TODO Auto-generated method stub
+                @Override
+                public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                    // TODO Auto-generated method stub
 
-                    }
-                });
-                dialog.show();
-            }
-            buildGoogleApiClient();
+                }
+            });
+            dialog.show();
+        }
+        buildGoogleApiClient();
 
     }
 
@@ -198,7 +188,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         Log.i(TAG, "Connection suspended");
         mGoogleApiClient.connect();
     }
-
 
 
     @Override
@@ -293,7 +282,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     .newCameraPosition(cameraPosition));
 
 
-
         } else {
             Toast.makeText(getApplicationContext(),
                     "Sorry! unable to create maps", Toast.LENGTH_SHORT)
@@ -374,18 +362,19 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     /**
      * Updates the address in the UI.
      */
-    public void startNavigation(int sourceLat,int sourceLng, int destLat, int destLng){
+    public void startNavigation(int sourceLat, int sourceLng, int destLat, int destLng) {
 
         Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
-                Uri.parse("http://maps.google.com/maps?saddr="+sourceLat+","+sourceLng+"&daddr="+destLat+","+destLng));
+                Uri.parse("http://maps.google.com/maps?saddr=" + sourceLat + "," + sourceLng + "&daddr=" + destLat + "," + destLng));
         startActivity(intent);
     }
 
     protected void displayAddressOutput() {
         //  mLocationAddressTextView.setText(mAddressOutput);
         try {
-            if (mAreaOutput != null){}
-                // mLocationText.setText(mAreaOutput+ "");
+            if (mAreaOutput != null) {
+            }
+            // mLocationText.setText(mAreaOutput+ "");
 
 //                mLocationAddress.setText(mAddressOutput);
             //mLocationText.setText(mAreaOutput);

@@ -32,7 +32,9 @@ public class Ride implements Parcelable{
         this.status = SEARCHING;
     }
 
-    protected Ride(Parcel in) {
+    private Ride(Parcel in) {
+
+        status = in.readInt();
         myMobile = in.readString();
         rikMobile = in.readString();
         sourceLat = in.readString();
@@ -41,14 +43,10 @@ public class Ride implements Parcelable{
         destinationLng = in.readString();
         rikLat = in.readString();
         rikLng = in.readString();
-        status = in.readInt();
-        SEARCHING = in.readInt();
-        WAITING = in.readInt();
-        CONFIRM = in.readInt();
-        COMPLETED = in.readInt();
+
     }
 
-    public static final Creator<Ride> CREATOR = new Creator<Ride>() {
+    public static final Parcelable.Creator<Ride> CREATOR = new Parcelable.Creator<Ride>() {
         @Override
         public Ride createFromParcel(Parcel in) {
             return new Ride(in);
