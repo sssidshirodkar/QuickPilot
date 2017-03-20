@@ -23,7 +23,6 @@ import com.collge.quickpilot.R;
 import com.collge.quickpilot.pojo.Ride;
 import com.collge.quickpilot.util.Constants;
 import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -50,8 +49,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     Context mContext;
     TextView mLocationMarkerText;
     private LatLng mCenterLatLong;
-    private GoogleApiClient client;
-
 
     /**
      * Receiver registered with this activity to get the response from FetchAddressIntentService.
@@ -76,7 +73,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         ride = intent.getParcelableExtra("ride");
         Log.v("ride object", ride.getMyMobile());
         Toast.makeText(this.getApplicationContext(), "mobile : " + ride.getMyMobile(), Toast.LENGTH_SHORT).show();
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
         setContentView(R.layout.map_activity);
         mContext = this;
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -167,19 +163,14 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         } else
             try {
+                LocationRequest mLocationRequest = new LocationRequest();
+                mLocationRequest.setInterval(10000);
+                mLocationRequest.setFastestInterval(5000);
+                mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        try {
-            LocationRequest mLocationRequest = new LocationRequest();
-            mLocationRequest.setInterval(10000);
-            mLocationRequest.setFastestInterval(5000);
-            mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
     }
 
@@ -207,33 +198,20 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     protected void onStart() {
         super.onStart();
-        client.connect();
         try {
             mGoogleApiClient.connect();
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        AppIndex.AppIndexApi.start(client, getIndexApiAction0());
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        AppIndex.AppIndexApi.end(client, getIndexApiAction());
-        try {
-
-        } catch (RuntimeException e) {
-            e.printStackTrace();
-        }
         if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
             mGoogleApiClient.disconnect();
         }
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client.disconnect();
     }
 
 
