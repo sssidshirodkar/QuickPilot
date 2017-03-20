@@ -52,7 +52,7 @@ public class RideListActivity extends AppCompatActivity {
             @Override
             public void invoke(Object o) {
                 Log.d("Listening", "in maps activity : " + (DataSnapshot) o);
-                Toast.makeText(RideListActivity.this, "dataSnapshot" + (DataSnapshot) o, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(RideListActivity.this, "dataSnapshot" + (DataSnapshot) o, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -75,7 +75,7 @@ public class RideListActivity extends AppCompatActivity {
         ridesReference.getListOfRides(new Callback_v2() {
             @Override
             public void invoke(Object o) {
-                Toast.makeText(RideListActivity.this, "dataSnapshot" + (DataSnapshot) o, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(RideListActivity.this, "dataSnapshot" + (DataSnapshot) o, Toast.LENGTH_SHORT).show();
 
                 rides.clear();
                 for (DataSnapshot dataSnapshot : ((DataSnapshot) o).getChildren()) {

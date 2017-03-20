@@ -30,13 +30,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@mipmap/ic_launcher" />
+        </LinearLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="bottom">
             <Button
+                android:id="@+id/navButton"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:layout_gravity="bottom"
-                android:text="Start Navigation"
-                android:onClick="startNavigation()" />
-        </LinearLayout>
+                android:text="Start Navigation" />
+        </RelativeLayout>
 
 
 
