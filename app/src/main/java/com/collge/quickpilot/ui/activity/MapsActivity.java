@@ -38,6 +38,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
@@ -75,10 +76,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private LatLng mCenterLatLong;
 
     /**
-     * Receiver registered with this activity to get the response from FetchAddressIntentService.
-     */
-    private AddressResultReceiver mResultReceiver;
-    /**
      * The formatted location address.
      */
     protected String mAddressOutput;
@@ -106,13 +103,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .findFragmentById(R.id.map);
 
         mapFragment.getMapAsync(this);
-        mResultReceiver = new AddressResultReceiver(new Handler());
 
         Button navButton = (Button) findViewById(R.id.navButton);
         navButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openNavigator(ride.getSourceLat(),ride.getSourceLng(),ride.getDestinationLat(),ride.getDestinationLng());
+                switchToRideProgressActivity(ride.getSourceLat(),ride.getSourceLng(),ride.getDestinationLat(),ride.getDestinationLng());
             }
         });
 
@@ -142,6 +138,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         buildGoogleApiClient();
 
     }
+
     private String getDirectionsUrl(LatLng origin,LatLng dest) {
 
         // Origin of route
@@ -362,7 +359,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             return;
         }
         mMap.setMyLocationEnabled(true);
-        mMap.getUiSettings().setMyLocationButtonEnabled(true);
+//        mMap.getUiSettings().setMyLocationButtonEnabled(true);
 
     }
 
@@ -466,11 +463,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             String dLng = ride.getDestinationLng();
             LatLng source =new LatLng(Double.parseDouble(sLat),Double.parseDouble(sLng));
             LatLng dest =new LatLng(Double.parseDouble(dLat),Double.parseDouble(dLng));
-            mMap.addMarker(new MarkerOptions().position(source).title("SOURCE"));
-            mMap.addMarker(new MarkerOptions().position(dest).title("DESTINATION"));
-            markerPoints.add(2,latLong);
+            mMap.addMarker(new MarkerOptions().position(source).title("SOURCE").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+            mMap.addMarker(new MarkerOptions().position(dest).title("DESTINATION").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+//            markerPoints.add(2,latLong);
             CameraPosition cameraPosition = new CameraPosition.Builder()
-                    .target(latLong).zoom(12f).tilt(70).build();
+                    .target(source).zoom(12f).tilt(70).build();
 
 
             mMap.setMyLocationEnabled(true);
@@ -489,72 +486,15 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
-    /**
-     * Receiver for data sent from FetchAddressIntentService.
-     */
-
-    class AddressResultReceiver extends ResultReceiver {
-        public AddressResultReceiver(Handler handler) {
-            super(handler);
-        }
-
-        /**
-         * Receives data sent from FetchAddressIntentService and updates the UI in MainActivity.
-         */
-        @Override
-        protected void onReceiveResult(int resultCode, Bundle resultData) {
-
-            // Display the address string or an error message sent from the intent service.
-            mAddressOutput = resultData.getString(Constants.RESULT_DATA_KEY);
-
-            mAreaOutput = resultData.getString(Constants.LOCATION_DATA_AREA);
-
-            mCityOutput = resultData.getString(Constants.LOCATION_DATA_CITY);
-            mStateOutput = resultData.getString(Constants.LOCATION_DATA_STREET);
-
-            displayAddressOutput();
-
-            // Show a toast message if an address was found.
-            if (resultCode == Constants.SUCCESS_RESULT) {
-                //  showToast(getString(R.string.address_found));
-
-
-            }
-
-
-        }
-
-    }
-
-    /**
-     * Updates the address in the UI.
-     * @param sourceLat
-     * @param sourceLng
-     * @param destLat
-     * @param destLng
-     */
-    public void openNavigator(String sourceLat, String sourceLng, String destLat, String destLng) {
-
-        Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
-                Uri.parse("http://maps.google.com/maps?saddr=" + sourceLat + "," + sourceLng + "&daddr=" + destLat + "," + destLng));
-        intent.setPackage("com.google.android.apps.maps");
+    private void switchToRideProgressActivity(String sourceLat, String sourceLng, String destLat, String destLng){
+        Intent intent = new Intent(this, RideProgressActivity.class);
+        intent.putExtra("sourceLat", sourceLat);
+        intent.putExtra("sourceLng", sourceLng);
+        intent.putExtra("destLat", destLat);
+        intent.putExtra("destLng", destLng);
         startActivity(intent);
+        finish();
     }
-
-    protected void displayAddressOutput() {
-        //  mLocationAddressTextView.setText(mAddressOutput);
-        try {
-            if (mAreaOutput != null) {
-            }
-            // mLocationText.setText(mAreaOutput+ "");
-
-//                mLocationAddress.setText(mAddressOutput);
-            //mLocationText.setText(mAreaOutput);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
 
 }
 

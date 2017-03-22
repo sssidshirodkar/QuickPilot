@@ -20,7 +20,10 @@ import java.util.ArrayList;
  * Created by Siddhesh on 05-02-2017.
  */
 
-public class RideListAdapter extends RecyclerView.Adapter<RideListAdapter.ViewHolder> {
+public class RideListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+    private final int VIEW_TYPE_DATA = 1;
+    private final int VIEW_TYPE_EMPTY = 0;
 
     Context context;
     ArrayList<Ride> rides;
@@ -39,38 +42,66 @@ public class RideListAdapter extends RecyclerView.Adapter<RideListAdapter.ViewHo
 
     }
 
+    static class EmptyViewHolder extends RecyclerView.ViewHolder {
+        public EmptyViewHolder(View view) {
+            super(view);
+        }
+    }
+
     public RideListAdapter(Context context, ArrayList<Ride> rides) {
         this.context = context;
         this.rides = rides;
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_list_adapter, viewGroup, false);
-        ViewHolder viewHolder = new ViewHolder(view);
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+        RecyclerView.ViewHolder viewHolder;
+        if(viewType == VIEW_TYPE_DATA) {
+            View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_list_adapter, viewGroup, false);
+            viewHolder = new ViewHolder(view);
+        }else{
+            View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_empty_list_adapter, viewGroup, false);
+            viewHolder = new EmptyViewHolder(view);
+        }
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, final int position) {
-        final Ride ride = rides.get(position);
-        holder.tv_mobile.setText(ride.getMyMobile());
-        holder.tv_status.setText(String.valueOf(ride.getStatus()));
-        holder.btnStart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((RideListActivity) context).changeRideStatus(ride.getMyMobile());
+    public void onBindViewHolder(final RecyclerView.ViewHolder viewHolder, final int position) {
+        if (viewHolder.getItemViewType() == VIEW_TYPE_DATA) {
+            ViewHolder holder = (ViewHolder) viewHolder;
+            final Ride ride = rides.get(position);
+            holder.tv_mobile.setText(ride.getMyMobile());
+            holder.tv_status.setText(String.valueOf(ride.getStatus()));
+            holder.btnStart.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ((RideListActivity) context).changeRideStatus(ride.getMyMobile());
 
-                Intent intent = new Intent(context, MapsActivity.class);
-                intent.putExtra("ride", ride);
-                context.startActivity(intent);
-            }
-        });
+                    Intent intent = new Intent(context, MapsActivity.class);
+                    intent.putExtra("ride", ride);
+                    context.startActivity(intent);
+                }
+            });
+        }
     }
 
     @Override
     public int getItemCount() {
-        return rides.size();
+        if(rides.size() == 0){
+            return 1;
+        }else {
+            return rides.size();
+        }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (rides.size() == 0) {
+            return VIEW_TYPE_EMPTY;
+        }else{
+            return VIEW_TYPE_DATA;
+        }
     }
 
 }

@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.collge.quickpilot.R;
 import com.collge.quickpilot.firebase_database.GeoFireReference;
@@ -95,7 +94,7 @@ public class RideListActivity extends AppCompatActivity {
         });
     }
 
-    public void changeRideStatus(String phoneNo){
+    public void changeRideStatus(String phoneNo) {
         ridesReference.getRideRef().child(phoneNo).child("status").setValue(1);
     }
 
