@@ -492,6 +492,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         intent.putExtra("sourceLng", sourceLng);
         intent.putExtra("destLat", destLat);
         intent.putExtra("destLng", destLng);
+        intent.putExtra("myMobile",ride.getMyMobile());
         startActivity(intent);
         finish();
     }

@@ -1,6 +1,7 @@
 package com.collge.quickpilot.pojo;
 
 import android.location.Location;
+import android.os.Parcel;
 
 import java.io.Serializable;
 
@@ -16,6 +17,9 @@ public class User implements Serializable {
     public User(String mIMEI, String myMobile) {
         this.mIMEI = mIMEI;
         this.myMobile = myMobile;
+    }
+    private User(Parcel in) {
+        myMobile = in.readString();
     }
 
     public String getMyMobile() {

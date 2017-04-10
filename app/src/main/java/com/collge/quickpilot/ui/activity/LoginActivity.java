@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.collge.quickpilot.R;
 import com.collge.quickpilot.pojo.SharedPreference;
 import com.collge.quickpilot.pojo.User;
+import com.collge.quickpilot.util.Constants;
 import com.digits.sdk.android.AuthCallback;
 import com.digits.sdk.android.Digits;
 import com.digits.sdk.android.DigitsAuthButton;
@@ -35,6 +36,7 @@ public class LoginActivity extends AppCompatActivity {
     private static final String TWITTER_SECRET = "6CHehmHGTC5avcjmQK5KRf6XUeC0thrZhiM1qAjPlxdPXWa7ZM";
     public static TelephonyManager telephonyManager;
     private static String IMEI;
+    public static String mRikMobile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +66,8 @@ public class LoginActivity extends AppCompatActivity {
                  */
                 //SharedPreference.getPreference().setMyPhoneNumber(phoneNumber);
                 Intent home = new Intent(LoginActivity.this, RideListActivity.class);
-                home.putExtra("user", user);
+                mRikMobile = phoneNumber;
+                home.putExtra("rikMobile", phoneNumber);
                 startActivity(home);
                 //Toast.makeText(getApplicationContext(), "Authentication successful for " + phoneNumber, Toast.LENGTH_LONG).show();
             }

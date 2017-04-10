@@ -9,7 +9,7 @@ import android.os.Parcelable;
 
 public class Ride implements Parcelable{
 
-    String myMobile, rikMobile, sourceLat, sourceLng, destinationLat, destinationLng, rikLat, rikLng;
+    String myMobile, rikMobile, sourceLat, sourceLng, destinationLat, destinationLng, rikLat, rikLng, srcText, destText;
     int status;
 
     /**
@@ -23,13 +23,15 @@ public class Ride implements Parcelable{
 
     Ride(){}
 
-    public Ride(String myMobile, String sourceLat, String sourceLng, String destinationLat, String destinationLng) {
+    public Ride(String myMobile, String sourceLat, String sourceLng, String destinationLat, String destinationLng, String srcText, String destText) {
         this.myMobile = myMobile;
         this.sourceLat = sourceLat;
         this.sourceLng = sourceLng;
         this.destinationLat = destinationLat;
         this.destinationLng = destinationLng;
         this.status = SEARCHING;
+        this.srcText = srcText;
+        this.destText = destText;
     }
 
     private Ride(Parcel in) {
@@ -43,6 +45,8 @@ public class Ride implements Parcelable{
         destinationLng = in.readString();
         rikLat = in.readString();
         rikLng = in.readString();
+        srcText = in.readString();
+        destText = in.readString();
 
     }
 
@@ -130,6 +134,14 @@ public class Ride implements Parcelable{
         this.status = status;
     }
 
+    public String getSrcText(){
+        return srcText;
+    }
+
+    public String getDestText(){
+        return destText;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -146,5 +158,7 @@ public class Ride implements Parcelable{
         dest.writeString(destinationLng);
         dest.writeString(rikLat);
         dest.writeString(rikLng);
+        dest.writeString(srcText);
+        dest.writeString(destText);
     }
 }

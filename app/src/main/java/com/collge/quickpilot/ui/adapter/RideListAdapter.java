@@ -30,13 +30,15 @@ public class RideListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView tv_mobile, tv_status;
+        public TextView tv_mobile, tv_status, tv_src, tv_dest;
         public Button btnStart;
 
         public ViewHolder(View view) {
             super(view);
             tv_mobile = (TextView) view.findViewById(R.id.tv_mobile);
             tv_status = (TextView) view.findViewById(R.id.tv_status);
+            tv_src = (TextView) view.findViewById(R.id.tv_src);
+            tv_dest = (TextView) view.findViewById(R.id.tv_dest);
             btnStart = (Button) view.findViewById(R.id.btnStart);
         }
 
@@ -73,10 +75,12 @@ public class RideListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             final Ride ride = rides.get(position);
             holder.tv_mobile.setText(ride.getMyMobile());
             holder.tv_status.setText(String.valueOf(ride.getStatus()));
+            holder.tv_src.setText(ride.getSrcText());
+            holder.tv_dest.setText(ride.getDestText());
             holder.btnStart.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ((RideListActivity) context).changeRideStatus(ride.getMyMobile());
+                    //((RideListActivity) context).changeRideStatus(ride.getMyMobile());
 
                     Intent intent = new Intent(context, MapsActivity.class);
                     intent.putExtra("ride", ride);

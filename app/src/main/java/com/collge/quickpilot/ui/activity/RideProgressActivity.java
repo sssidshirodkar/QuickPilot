@@ -5,10 +5,18 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 import com.collge.quickpilot.R;
+import com.collge.quickpilot.firebase_database.AbstractDatabaseReference;
+import com.collge.quickpilot.firebase_database.RidesReference;
+import com.collge.quickpilot.util.Constants;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import static com.collge.quickpilot.app.App.context;
 
 /**
  * Created by Siddhesh on 21-03-2017.
@@ -18,6 +26,7 @@ public class RideProgressActivity extends AppCompatActivity {
 
     String sourceLat, sourceLng, destLat, destLng;
     Button end_ride, navigate;
+    DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -29,6 +38,22 @@ public class RideProgressActivity extends AppCompatActivity {
         sourceLng = intent.getStringExtra("sourceLng");
         destLat = intent.getStringExtra("destLat");
         destLng = intent.getStringExtra("destLng");
+        String u = Constants.RIDE_REFERENCE +"/" +intent.getStringExtra("myMobile") + "/status";
+        Log.d("------URL----->",u);
+        FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
+        mDatabase.getReference()
+                .child("quickride")
+                .child("rides")
+                .child(intent.getStringExtra("myMobile"))
+                .child("mRikMobile")
+                .setValue(LoginActivity.mRikMobile);
+        mDatabase.getReference()
+                .child("quickride")
+                .child("rides")
+                .child(intent.getStringExtra("myMobile"))
+                .child("status")
+                .setValue(1);
+
 
         openNavigator(sourceLat, sourceLng, destLat, destLng);
 
