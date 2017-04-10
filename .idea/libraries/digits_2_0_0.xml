@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="digits-2.0.0">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.digits.sdk.android/digits/2.0.0/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.digits.sdk.android/digits/2.0.0/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.digits.sdk.android/digits/2.0.0/2002c038683295c107b20661a332d2fd526591b5/digits-2.0.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

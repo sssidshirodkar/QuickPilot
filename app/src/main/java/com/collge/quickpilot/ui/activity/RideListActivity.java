@@ -1,5 +1,6 @@
 package com.collge.quickpilot.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +12,7 @@ import com.collge.quickpilot.firebase_database.GeoFireReference;
 import com.collge.quickpilot.firebase_database.RidesReference;
 import com.collge.quickpilot.firebase_database.UserReference;
 import com.collge.quickpilot.pojo.Ride;
+import com.collge.quickpilot.pojo.User;
 import com.collge.quickpilot.ui.adapter.RideListAdapter;
 import com.collge.quickpilot.ui.interfaces.Callback_v2;
 import com.google.firebase.database.DataSnapshot;
@@ -33,7 +35,6 @@ public class RideListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         rides = new ArrayList<>();
-
         recyclerView = (RecyclerView) findViewById(R.id.rlView);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
