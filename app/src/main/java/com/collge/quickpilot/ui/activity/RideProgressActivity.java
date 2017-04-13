@@ -90,4 +90,8 @@ public class RideProgressActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    @Override
+    public void onBackPressed() {
+        // over ridden to avoid back press
+    }
 }

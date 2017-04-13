@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
 import android.provider.Settings;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v13.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -104,7 +105,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         mapFragment.getMapAsync(this);
 
-        Button navButton = (Button) findViewById(R.id.navButton);
+        FloatingActionButton navButton = (FloatingActionButton) findViewById(R.id.fab);
         navButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

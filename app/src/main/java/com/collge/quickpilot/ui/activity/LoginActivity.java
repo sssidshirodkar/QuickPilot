@@ -57,6 +57,7 @@ public class LoginActivity extends AppCompatActivity {
                 mRikMobile = phoneNumber;
                 home.putExtra("rikMobile", phoneNumber);
                 startActivity(home);
+                finish();
                 //Toast.makeText(getApplicationContext(), "Authentication successful for " + phoneNumber, Toast.LENGTH_LONG).show();
             }
 
