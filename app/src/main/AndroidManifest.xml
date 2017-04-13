@@ -27,8 +27,7 @@
             />
         <activity android:name=".ui.activity.LoginActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
-            >
+            android:theme="@style/AppTheme.CustomeNoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
